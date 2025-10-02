@@ -1,7 +1,7 @@
 # Fake Job Prediction 
 
 
-This project is a **Machine Learning pipeline** designed to predict student performance based on survey/text data.  
+This project is a **Machine Learning pipeline** designed to predict fake jobs based on survey/text data.  
 It is built from scratch without relying only on Jupyter notebooks, focusing instead on a **modular, production-ready structure**.
 
 ---
