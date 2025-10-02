@@ -17,7 +17,7 @@ It is built from scratch without relying only on Jupyter notebooks, focusing ins
 ---
 
 ## 🗂 Project Structure
-
+```
 Fake_job_prediction/
 │
 ├── data/ # Raw or cleaned datasets
@@ -29,6 +29,7 @@ Fake_job_prediction/
 │
 ├── requirements.txt # Project dependencies
 ├── README.md # Project documentation
+```
 
 ---
 
