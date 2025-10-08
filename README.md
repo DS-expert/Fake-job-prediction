@@ -82,6 +82,52 @@ Fake_job_prediction/
 4. Results (metrics, logs, trained model) will be saved in `outputs/`.
 
 
+### 🧠 Summary of Data Exploration `notebook/01_data_exploration`
+
+In this notebook, we performed an initial overview and exploratory data analysis (EDA) for the Fake Job Prediction dataset.
+
+#### 🧩 EDA in NLP — Basic Flow
+
+1. Check Duplicates and Missing Values
+    - Identify incomplete or repeated entries.
+
+2. Analyze Class Distribution
+    - Observe label imbalance between real and fake job postings.
+
+3. Perform Basic Text Statistics
+
+    - Word count
+
+    - Sentence count
+
+    - Average word and sentence length
+
+    - Visualize text distributions.
+
+4. Term Frequency Analysis (TF Analysis)
+    - Identify the most common words using NLTK and frequency plots.
+
+5. Curiosity-Based Insights
+    - Compare common words in fake vs real job descriptions to detect patterns.
+
+#### Key Observations
+
+- The dataset is imbalanced — fake job postings are fewer than real ones.
+
+- The ' character appears frequently and needs cleaning during preprocessing.
+
+- Several features contain missing values.
+
+- Descriptions contain many stopwords, which will need filtering later.
+
+- There are spelling errors and punctuations that should be cleaned.
+
+- Common words in fake job posts:
+    ``` time, solutions, within, position, engineering, skills, project ```
+
+- Common words in real job posts:
+    ``` sales, client, marketing, design, product, development ```
+
 ## 👤 Author
 
     Ahmad - Student of Machine learning
