@@ -346,6 +346,20 @@ def handle_imbalance_data(X_train, y_train):
 
     return X_train_resampled, y_train_resampled
 
+def save_preprocess_data(data, output_path):
+
+    """
+    Save preprocessed data to the output path
+
+    *data: pd.Dataframe:
+        Input dataset
+    *output_path: path
+        Input path to store data.
+    """
+
+    data.to_csv(output_path, index=False)
+    print(f"✅ Processed data saved at: {output_path}")
+
 
 
 
