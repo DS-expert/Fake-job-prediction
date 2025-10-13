@@ -20,4 +20,7 @@ RAW_DATA_PATH = RAW_DATA_DIR / "fake_job_postings.csv"
 
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
 
+# Train Hyperparameter
 
+RANDOM_STATE = 42
+TEST_SIZE = 0.2
