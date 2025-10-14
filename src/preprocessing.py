@@ -179,7 +179,7 @@ def apply_detect_language(df, feature="text_all", sample=1000):
 
     df["temp"] = df[feature].sample(n=sample).apply(lambda x: detect_language(x))
 
-    lang_count = df["temp"].value_count(normalize=True) * 100
+    lang_count = df["temp"].value_counts(normalize=True) * 100
 
     print(f"language count: {lang_count}")
 
@@ -224,7 +224,7 @@ def lemmatization(df, feature="text_all", batch_size=100):
 
     for doc in tqdm(nlp.pipe(text, batch_size=batch_size, disable=["parser", "ner"]), total=len(text)):
 
-        lemmas = [token.lemmas_ for token in doc if not token.is_punct and not token.is_space]
+        lemmas = [token.lemma_ for token in doc if not token.is_punct and not token.is_space]
         lemmatized_text.append(" ".join(lemmas))
 
     df[f"{feature}_lemma"] = lemmatized_text
@@ -261,7 +261,7 @@ def train_test_split_fn(input_feature, target_feature, random_state=RANDOM_STATE
 
 
 
-def encoding(data, X_train=X_train, X_test=X_test, threshold_word=5, unique_ratio=0.3):
+def encoding(data, X_train, X_test, threshold_word=5, unique_ratio=0.3):
 
     """
     Encoding the Categorical features and text features to Vectorizer and One Hot Encoding 
