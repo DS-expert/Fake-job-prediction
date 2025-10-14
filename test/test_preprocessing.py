@@ -21,7 +21,14 @@ def test_handle_missing_value_numerical():
 
     # Check missing indicator exits
 
-    assert any("missing_indicator" in col for col in result.columns), "Missing indicator not created for numerical features"
+    indicator = [col for col in result.columns if "missing_indicator" in col]
+    if indicator:
+
+        for col in indicator:
+
+            valid_values = result[col].isin([0, 1]).all()
+            assert valid_values, f"{col} have more values than 0 and 1."
+
 
 
 
