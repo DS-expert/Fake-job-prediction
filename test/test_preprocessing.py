@@ -2,7 +2,7 @@ import pandas as pd
 from src.preprocessing import handle_missing_values
 
 
-def handle_missing_value_numerical():
+def test_handle_missing_value_numerical():
 
     df = pd.DataFrame({
         "age": [25, None, 35, 40, None],
