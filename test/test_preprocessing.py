@@ -30,5 +30,28 @@ def test_handle_missing_value_numerical():
             assert valid_values, f"{col} have more values than 0 and 1."
 
 
+def test_handle_missing_value_categorical():
+
+    df = pd.DataFrame({
+        "name": ["Ali", None, "Sara", "Ahmad"],
+        "city": ["Lahore", "Karachi", None, None]
+    })
+
+    result = handle_missing_values(df)
+
+    assert result.isnull().sum().sum() == 0, "Categorical missing values didn't handle"
+
+    assert "missing" in result["city"].values or "missing" in result["name"].values, "Missing term didn't fill correctly"
+    
+    indicator = [feature for feature in result.columns if "missing_indicator" in feature]
+
+    if indicator:
+
+        for col in indicator:
+
+            valid_values = result[col].isin([0, 1]).all()
+
+            assert valid_values, "f{col} have more values than 0 and 1"
+
 
 
