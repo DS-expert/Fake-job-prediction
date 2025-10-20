@@ -36,3 +36,18 @@
 ```
 
 - Add Train Hyperparameter in config.py
+
+**Date: 2025-10-14**:
+
+- Add new function to save the preprocessed data to the output path.
+- Fix typo of token.lemmas to token.lemma and value_count to value_counts and remove default value of X_train and y_train in `preprocessing.py`
+- Create test file for `preprocessing.py` and create test function for handle_missing_value() function to check numerical data.
+- Create `__init__.py` and add `__pycache__` to `.gitignore`
+- fix type of handle word and change `handle_missing_value_numerical()` to `test_handle_missing_value_numerical()`.
+- Rewrite the test case for missing indicator in `test_handle_missing_value()` in `test_preprocessing.py`.
+- Create the test function for Categorical data in `test_preprocessing.py`.
+
+
+**Date: 2025-10-20**:
+
+- Create the test case for both data i.e Numerical and Categorical data.
