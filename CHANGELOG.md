@@ -51,3 +51,10 @@
 **Date: 2025-10-20**:
 
 - Create the test case for both data i.e Numerical and Categorical data.
+
+**Date: 2025-10-23**:
+- Create the test function `test_combination_text()` for `combine_text_feature()`.
+- Create the test function `test_combination_small_feature()` for `combine_text_feature()`.
+- Create the test function `test_combination_mix_feature()`.
+- Create the test function `test_remove_stopwords()` for `remove_stopwords()`.
+- Create the test function `test_lemmatization` for `lemmatization()`.
