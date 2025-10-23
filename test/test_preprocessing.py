@@ -1,6 +1,7 @@
 import pandas as pd
 from src.preprocessing import handle_missing_values
-
+from src.preprocessing import text_cleaning
+import re
 
 def test_handle_missing_value_numerical():
 
@@ -101,3 +102,38 @@ def test_handle_missing_value_both():
             valid_values = result[col].isin([0, 1]).all()
 
             assert valid_values, "Missing indicator columns didn't add to the dataset."
+
+def test_text_cleaning():
+
+    # Arrange
+    text = "  HELLO,   world!!  AI---is `AMAZING!!!'  AI---is AMAZING!!!`  "
+
+    # Act
+    
+    result = text_cleaning(text)
+
+    print(result)
+
+    # Assertion
+
+    # First text should be lower
+
+    assert result == result.lower(), "Text didn't convert into lower case"
+
+    # `' should be not in text.
+
+    assert "`" not in result or "'" not in result, "`' Didn't remove correctly"
+
+    # Have no punctuation in text
+
+    punctuation_found = re.search(r'[^\w\s]', result)
+
+    assert punctuation_found is None, f"Punctuation still present in text: {result}"
+
+    # Have no extra whitespace
+    assert not re.search(r'\s{2,}', result), f"Extra Whitespace found in text {result}"
+
+    # Have no trailing or spacing leading 
+
+    assert result == result.strip(), f"Leading or trading spaces remain in text {result}"
+

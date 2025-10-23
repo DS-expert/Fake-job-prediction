@@ -89,15 +89,15 @@ def text_cleaning(text):
 
     # Remove ' from the text according to the EDA
 
-    cleaned_text = re.sub(r"['`]", "", text)
+    cleaned_text = re.sub(r"['`]", "", cleaned_text)
 
     # Remove the punctuaction
 
-    cleaned_text = re.sub(f"[{re.escape(string.punctuation)}]", " ", text)
+    cleaned_text = re.sub(f"[{re.escape(string.punctuation)}]", " ", cleaned_text)
 
     # Remove extra spaces
 
-    cleaned_text = " ".join(text.split())
+    cleaned_text = " ".join(cleaned_text.split())
 
     return cleaned_text
 
