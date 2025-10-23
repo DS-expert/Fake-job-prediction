@@ -183,4 +183,38 @@ def test_combination_small_text():
 
     assert not "text_all" in result, "combine rich text feature logic failed! combine_text_feature combine small features"
 
+def test_combination_mix_features():
+
+    # Arrange 
+    # Mixed dataset (rich + small)
+    df_mixed = pd.DataFrame({
+    "description": [
+        "We seek a backend developer proficient in Django and REST APIs.",
+        "Frontend engineer needed for React-based UI development.",
+        "Machine learning engineer to optimize predictive models."
+    ],
+    "requirements": [
+        "Experience with Docker, AWS, and CI/CD pipelines.",
+        "Strong knowledge of JavaScript and CSS.",
+        "Expertise in Python, Scikit-learn, and data preprocessing."
+    ],
+    "department": ["Engineering", "Engineering", "AI Lab"],
+    "location": ["Berlin", "Toronto", "Tokyo"]
+    })
+
+    # ACT
+    result = combine_text_features(df_mixed)
+
+    # ASSERTION
+
+    # Check if text_all feature in
+
+    assert "text_all" in result, "combine_text_feature() didn't work properly"
+
+    # Check the shape it should be equal to 5 columns
+
+    assert result.shape[1] == 5, "Shape is misplaced in the process"
+
+
+
 
