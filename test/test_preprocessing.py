@@ -3,6 +3,7 @@ from src.preprocessing import handle_missing_values
 from src.preprocessing import text_cleaning
 from src.preprocessing import combine_text_features
 from src.preprocessing import remove_stopwords
+from src.preprocessing import lemmatization
 from nltk.corpus import stopwords
 import re
 
@@ -248,6 +249,51 @@ def test_remove_stopwords():
         for word in row.split():
 
             assert word not in stop_words, "Stop words still remain in text!"
+
+
+def test_lemmatization():
+
+    # Arrange 
+    df_rich = pd.DataFrame({
+    "description": [
+        "We are looking for a data scientist with strong Python and SQL skills.",
+        "The ideal candidate will have experience in machine learning and AI research.",
+        "Join our AI lab and contribute to groundbreaking projects on computer vision."
+    ],
+    "requirements": [
+        "3+ years experience with Python, Pandas, and TensorFlow.",
+        "Ability to design scalable ML models and pipelines.",
+        "Strong understanding of CNNs and data preprocessing."
+    ]
+    })
+
+    # ACT 
+
+    result = lemmatization(df_rich, feature="description")
+
+    # Assertion
+
+    assert "description_lemma" in result.columns, "Description_lemma columns not found in final result"
+
+    assert not "description" in result.columns, "old 'description' Column didn't drop from dataset."
+
+    for original, lemma in zip(df_rich["description"], result["description_lemma"]):
+        org_len = len(original.split())
+        lemma_len = len(lemma.split())
+
+        assert lemma_len > 0, "Empty lemmatized text found"
+
+        assert abs(org_len - lemma_len) < org_len * 0.5, f"Too much difference in Token Counts Original({org_len}) Vs lemma({lemma_len})"
+
+    
+    change_detected = any(
+        o_word != l_word
+        for original, lemma in zip(df_rich["description"], result["description_lemma"])
+        for o_word, l_word in zip(original.lower().split(), lemma.lower().split())
+        if len(o_word) > 3
+    )
+
+    assert change_detected, "No Lemmatization affect detected - words unchanged"
 
 
 
