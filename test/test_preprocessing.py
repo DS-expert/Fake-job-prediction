@@ -2,6 +2,8 @@ import pandas as pd
 from src.preprocessing import handle_missing_values
 from src.preprocessing import text_cleaning
 from src.preprocessing import combine_text_features
+from src.preprocessing import remove_stopwords
+from nltk.corpus import stopwords
 import re
 
 def test_handle_missing_value_numerical():
@@ -214,6 +216,40 @@ def test_combination_mix_features():
     # Check the shape it should be equal to 5 columns
 
     assert result.shape[1] == 5, "Shape is misplaced in the process"
+
+def test_remove_stopwords():
+
+    # Arrange 
+    df_rich = pd.DataFrame({
+    "description": [
+        "We are looking for a data scientist with strong Python and SQL skills.",
+        "The ideal candidate will have experience in machine learning and AI research.",
+        "Join our AI lab and contribute to groundbreaking projects on computer vision."
+    ],
+    "requirements": [
+        "3+ years experience with Python, Pandas, and TensorFlow.",
+        "Ability to design scalable ML models and pipelines.",
+        "Strong understanding of CNNs and data preprocessing."
+    ]
+    })
+     
+    # ACT
+
+    result = remove_stopwords(df_rich, feature="description")
+
+    # Assertion
+
+    # No Stop word in description function
+
+    stop_words = stopwords.words("english")
+
+    for row in result["description"]:
+
+        for word in row.split():
+
+            assert word not in stop_words, "Stop words still remain in text!"
+
+
 
 
 
