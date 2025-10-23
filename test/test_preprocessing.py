@@ -1,6 +1,7 @@
 import pandas as pd
 from src.preprocessing import handle_missing_values
 from src.preprocessing import text_cleaning
+from src.preprocessing import combine_text_features
 import re
 
 def test_handle_missing_value_numerical():
@@ -136,4 +137,32 @@ def test_text_cleaning():
     # Have no trailing or spacing leading 
 
     assert result == result.strip(), f"Leading or trading spaces remain in text {result}"
+
+def test_combination_text():
+
+    # Arrange 
+    df_rich = pd.DataFrame({
+    "description": [
+        "We are looking for a data scientist with strong Python and SQL skills.",
+        "The ideal candidate will have experience in machine learning and AI research.",
+        "Join our AI lab and contribute to groundbreaking projects on computer vision."
+    ],
+    "requirements": [
+        "3+ years experience with Python, Pandas, and TensorFlow.",
+        "Ability to design scalable ML models and pipelines.",
+        "Strong understanding of CNNs and data preprocessing."
+    ]
+    })
+
+    # Act
+    result = combine_text_features(df_rich)
+
+    print(f"df_rich Shape: {df_rich.shape}")
+    print(f"Result Shape: {result.shape}")
+
+    # Assertion
+    assert "text_all" in result, "'text_all' feature didn't made in process"
+
+
+
 
