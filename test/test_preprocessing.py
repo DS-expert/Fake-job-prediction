@@ -165,4 +165,22 @@ def test_combination_text():
 
 
 
+def test_combination_small_text():
+
+    # Arrange 
+    # Small text feature dataset
+    df_small = pd.DataFrame({
+    "department": ["IT", "HR", "Finance"],
+    "location": ["New York", "San Francisco", "London"],
+    "employment_type": ["Full-time", "Part-time", "Contract"]
+    })
+
+    # ACT
+
+    result = combine_text_features(df_small)
+
+    # Assertion
+
+    assert not "text_all" in result, "combine rich text feature logic failed! combine_text_feature combine small features"
+
 
