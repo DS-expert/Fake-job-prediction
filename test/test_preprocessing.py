@@ -7,6 +7,7 @@ from src.preprocessing import lemmatization
 from src.preprocessing import encoding
 from sklearn.model_selection import train_test_split
 from scipy.sparse import coo_matrix, csr_matrix
+from src.preprocessing import handle_imbalance_data
 from nltk.corpus import stopwords
 import re
 
@@ -334,5 +335,31 @@ def test_encoding():
 
     assert X_train_result.dtype == "float64", "Encoded matrix data type is not float64"
     assert X_test_result.dtype == "float64", "Encoded matrix data type is not float64"
+
+def test_imbalance_data():
+
+    # Arrange
+    data = {
+    "Amount": [15, 25, 50, 12, 30, 19, 36],
+    "Is_Fraud": [0, 0, 0, 1, 0, 0, 1] # 0 = No Fraud (Majority), 1 = Fraud (Minority)
+    }
+
+    df_imbalanced = pd.DataFrame(data)
+    
+    # Act 
+    X_train =  df_imbalanced.drop("Is_Fraud", axis=1)
+    y_train = df_imbalanced["Is_Fraud"]
+
+    X_train_result, y_train_result = handle_imbalance_data(X_train, y_train)
+
+    # Assertion
+
+    # Check the Shape of X_train and y_train
+
+    assert X_train_result.shape[0] == 10, "X_train after SMOTE has incorrect number of samples"
+    assert y_train_result.shape[0] == 10, "y_train after SMOTE has incorrect number of samples"
+
+    assert X_train_result.shape[0] == y_train_result.shape[0], "X_train and y_train sample counts do not match after SMOTE"
+
 
 
