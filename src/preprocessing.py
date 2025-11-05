@@ -11,6 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.sparse import hstack
+from scipy.sparse import coo_matrix
 from imblearn.over_sampling import SMOTE
 
 nlp = spacy.load("en_core_web_sm")
@@ -300,9 +301,10 @@ def encoding(data, X_train, X_test, threshold_word=5, unique_ratio=0.3):
 
     # Remove the rich text features from other ones 
 
-    if text_feature in cat_features:
+    for feature in text_feature:
 
-        for feature in text_feature:
+        if feature in cat_features:
+
             cat_features.remove(feature)
 
     encoder = OneHotEncoder(sparse_output=False, drop='first', handle_unknown='ignore')
@@ -314,15 +316,28 @@ def encoding(data, X_train, X_test, threshold_word=5, unique_ratio=0.3):
 
     tfid = TfidfVectorizer(max_features=5000, ngram_range=(1, 2))
 
+    X_train_text = None
+    X_test_text = None
+
     for feature in text_feature:
-        X_train_text = tfid.fit_transform(X_train[feature])
-        X_test_text = tfid.transform(X_test[feature])
+        train_current = tfid.fit_transform(X_train[feature])
+        test_current = tfid.transform(X_test[feature])
+
+        if X_train_text is None:
+            X_train_text = train_current
+            X_test_text = test_current
+        else:
+            X_train_text = hstack([X_train_text, train_current])
+            X_test_text = hstack([X_test_text, test_current])
 
     X_train_num = X_train[num_features].to_numpy()
     X_test_num = X_test[num_features].to_numpy()
 
-    X_train_final  = hstack(X_train_num, X_train_encoded, X_train_text)
-    X_test_final = hstack(X_test_num, X_test_encoded, X_test_text)
+    X_train_num_sparse = coo_matrix(X_train_num)
+    X_test_num_sparse = coo_matrix(X_test_num)
+
+    X_train_final  = hstack([X_train_num_sparse, X_train_encoded, X_train_text])
+    X_test_final = hstack([X_test_num_sparse, X_test_encoded, X_test_text])
 
 
     return X_train_final, X_test_final

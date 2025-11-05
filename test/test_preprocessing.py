@@ -4,6 +4,9 @@ from src.preprocessing import text_cleaning
 from src.preprocessing import combine_text_features
 from src.preprocessing import remove_stopwords
 from src.preprocessing import lemmatization
+from src.preprocessing import encoding
+from sklearn.model_selection import train_test_split
+from scipy.sparse import coo_matrix, csr_matrix
 from nltk.corpus import stopwords
 import re
 
@@ -296,7 +299,40 @@ def test_lemmatization():
     assert change_detected, "No Lemmatization affect detected - words unchanged"
 
 
+def test_encoding():
 
+    # Arrange the dataset
+    df_mixed = pd.DataFrame({
+    "description": [
+        "We seek a backend developer proficient in Django and REST APIs.",
+        "Frontend engineer needed for React-based UI development.",
+        "Machine learning engineer to optimize predictive models."
+    ],
+    "requirements": [
+        "Experience with Docker, AWS, and CI/CD pipelines.",
+        "Strong knowledge of JavaScript and CSS.",
+        "Expertise in Python, Scikit-learn, and data preprocessing."
+    ],
+    "department": ["Engineering", "Engineering", "AI Lab"],
+    "location": ["Berlin", "Toronto", "Tokyo"],
 
+    })
+
+    X_train, X_test = train_test_split(df_mixed, test_size=0.2)
+
+    # Act
+    X_train_result, X_test_result = encoding(df_mixed, X_train, X_test)
+
+    # Assertion
+
+    # Test the type
+
+    assert isinstance(X_train_result, coo_matrix), "Encoded result is not sparse matrix"
+    assert isinstance(X_test_result, coo_matrix), "Encoded result is not sparse matrix"
+
+    # Test the type of data inside
+
+    assert X_train_result.dtype == "float64", "Encoded matrix data type is not float64"
+    assert X_test_result.dtype == "float64", "Encoded matrix data type is not float64"
 
 
