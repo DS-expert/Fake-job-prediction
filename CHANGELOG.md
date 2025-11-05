@@ -58,3 +58,12 @@
 - Create the test function `test_combination_mix_feature()`.
 - Create the test function `test_remove_stopwords()` for `remove_stopwords()`.
 - Create the test function `test_lemmatization` for `lemmatization()`.
+
+**Date: 2025-11-05**:
+- fix(preprocessing): Change the order of removing text feature from cat feature
+- fix(preprocessing): Apply correct method of Vectorizer on X_train and X_test
+- fix(preprocessing): Convert the X_train_num to sparse.coo_matrix
+- test(preprocessing/encoding): Add new testing for encoding() func to ensure encoding is going smoothly
+- Create the test function `test_imbalance_data()` for `handle_imbalance_data()`.
+- Fix the issues in `config.py` and add variable of `PROCESSED_DATA_PATH`. 
+- Create the test function `test_save_data()` for `save_preprocessed_data()` to ensure data saved correctly at expected poisition.

@@ -356,7 +356,7 @@ def handle_imbalance_data(X_train, y_train):
         Return resampled train data and label
     """
 
-    smote = SMOTE(random_state=RANDOM_STATE, k_neighbors=1)
+    smote = SMOTE(random_state=RANDOM_STATE)
     X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
     return X_train_resampled, y_train_resampled
