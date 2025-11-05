@@ -8,6 +8,8 @@ from src.preprocessing import encoding
 from sklearn.model_selection import train_test_split
 from scipy.sparse import coo_matrix, csr_matrix
 from src.preprocessing import handle_imbalance_data
+from src.preprocessing import save_preprocess_data
+from config.config import PROCESSED_DATA_PATH
 from nltk.corpus import stopwords
 import re
 
@@ -361,5 +363,22 @@ def test_imbalance_data():
 
     assert X_train_result.shape[0] == y_train_result.shape[0], "X_train and y_train sample counts do not match after SMOTE"
 
+def test_save_data():
+
+    # Arrange
+    data = {
+    "Amount": [15, 25, 50, 12, 30, 19, 36],
+    "Is_Fraud": [0, 0, 0, 1, 0, 0, 1] # 0 = No Fraud (Majority), 1 = Fraud (Minority)
+    }
+
+    df= pd.DataFrame(data)
+
+    # Act
+
+    save_preprocess_data(df, output_path=PROCESSED_DATA_PATH)
+
+    # Assertion
+
+    assert PROCESSED_DATA_PATH.exists(), f"File not found at the expected location {PROCESSED_DATA_PATH}"
 
 

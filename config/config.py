@@ -18,7 +18,8 @@ RAW_DATA_DIR = DATA_DIR / "raw"
 
 RAW_DATA_PATH = RAW_DATA_DIR / "fake_job_postings.csv"
 
-PROCESSED_DATA_DIR = DATA_DIR / "processed"
+PROCESSED_DATA_DIR = DATA_DIR / "Preprocessed"
+PROCESSED_DATA_PATH = PROCESSED_DATA_DIR / "preprocessed_data.csv"
 
 # Train Hyperparameter
 
