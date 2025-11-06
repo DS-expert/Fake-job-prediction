@@ -25,3 +25,5 @@ PROCESSED_DATA_PATH = PROCESSED_DATA_DIR / "preprocessed_data.csv"
 
 RANDOM_STATE = 42
 TEST_SIZE = 0.2
+
+TARGET_COLUMN = "fraudulent"

@@ -6,12 +6,13 @@ from langdetect import detect, DetectorFactory
 from nltk.corpus import stopwords
 from tqdm import tqdm
 import spacy
-from config.config import RANDOM_STATE, TEST_SIZE
+from config.config import RANDOM_STATE, TEST_SIZE, TARGET_COLUMN
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.sparse import hstack
 from scipy.sparse import coo_matrix
+from scipy.sparse import save_npz
 from imblearn.over_sampling import SMOTE
 
 nlp = spacy.load("en_core_web_sm")
@@ -111,7 +112,7 @@ def apply_text_cleaning(data):
         data[f"{feature}_cleaned"] = data[feature].apply(lambda x: text_cleaning(x))
 
     # Drop the uncleaned data 
-    data = data.drop(cat_features)
+    data = data.drop(cat_features, axis=1, errors="ignore")
 
     return data
 
@@ -299,6 +300,9 @@ def encoding(data, X_train, X_test, threshold_word=5, unique_ratio=0.3):
     cat_features = [feature for feature in data.columns if data[feature].dtypes not in [int, float]]
     num_features = [feature for feature in data.columns if data[feature].dtypes in [int, float]]
 
+    # Remove target feature from num_features
+    num_features.remove(TARGET_COLUMN)
+
     # Remove the rich text features from other ones 
 
     for feature in text_feature:
@@ -361,19 +365,30 @@ def handle_imbalance_data(X_train, y_train):
 
     return X_train_resampled, y_train_resampled
 
-def save_preprocess_data(data, output_path):
+def save_preprocess_data(X_sparse, y_array, filename, output_path):
 
     """
     Save preprocessed data to the output path
 
-    *data: pd.Dataframe:
-        Input dataset
+    *X_sparse: scipy.sparse.coo_matrix:
+        Sparse matrix to save
+    *y_array: np.ndarray:
+        target array to save
+    *filename: str
+        Filename to store data
     *output_path: path
         Input path to store data.
     """
 
-    data.to_csv(output_path, index=False)
-    print(f"✅ Processed data saved at: {output_path}")
+    # Save the Spare matrix
+    x_file = output_path / f"{filename}_features.npz"
+    save_npz(x_file, X_sparse)
+
+    # Save the target array
+    y_file = output_path / f"{filename}_target.npy"
+    np.save(y_file, y_array)
+
+    print(f"Processed data saved at {output_path} with filename {filename}")    
 
 
 
