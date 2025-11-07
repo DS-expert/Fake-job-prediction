@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
-from train import train_adaboost
+from src.train import train_adaboost
 from sklearn.metrics import accuracy_score, roc_auc_score, classification_report
 
-def evaluate_mode(model, X_test, y_test):
+def evaluate_model(model, X_test, y_test):
     """
     Evaluate the given model on the test dataset and return accuracy, ROC AUC Score and classification report.
 

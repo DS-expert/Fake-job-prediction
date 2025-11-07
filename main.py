@@ -1,5 +1,7 @@
 from src.preprocessing import load_data, handle_missing_values, text_cleaning, apply_text_cleaning, remove_stopwords, lemmatization, train_test_split_fn, encoding, handle_imbalance_data, save_preprocess_data, combine_text_features
 from config.config import RAW_DATA_PATH, PROCESSED_DATA_DIR
+from src.train import train_adaboost
+from src.evaluation import evaluate_model
 
 def main():
     # Load data
@@ -35,6 +37,15 @@ def main():
     # Save data
     save_preprocess_data(X_train_balanced, y_train_balanced, filename="train", output_path=PROCESSED_DATA_DIR)
     save_preprocess_data(X_test_encoded, y_test, filename="test", output_path=PROCESSED_DATA_DIR)
+
+    # Train model
+    model = train_adaboost(X_train_balanced, y_train_balanced)
+
+    # Evaluate model
+    evaluate_metrics = evaluate_model(model, X_test_encoded, y_test)
+
+    for metric, value in evaluate_metrics.items():
+        print(f"{metric}: \n{value}%")
 
 if __name__ == "__main__":
     main()
